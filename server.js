@@ -17,6 +17,7 @@ app.use(express.static('./Front-end'));
 
 // Routes and api
 app.use(require('./Back-end/routes/index'));
+app.use(require('./Back-end/routes/authorization'));
 app.use(require('./Back-end/routes/api'));
 
 var server = app.listen(app.get('port'), function() {

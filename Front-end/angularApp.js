@@ -2,10 +2,13 @@ angular.module('jenhaoApp', [])
 .controller('rootCtrl', function($scope, $http){
     var vm = this;
     vm.ownerName ="Jen-Hao";
+})
+
+.controller('authCtrl', function($scope, $http){
+    var vm = this;
     vm.authorize = true;
 
     vm.account = {};
-
     vm.startAuth = () => {
         if (vm.authorize == true){
             vm.authorize = false;
@@ -16,10 +19,8 @@ angular.module('jenhaoApp', [])
 
     vm.submit = () =>{
         console.log(vm.account);
-        // sendAccount = JSON.stringify(vm.account);
-        // console.log(sendAccount);
 
-        $http.post('/',vm.account).
+        $http.post('api',vm.account).
         then(function(response) {
             console.log("posted from front-end successfully",response.config.data);
 

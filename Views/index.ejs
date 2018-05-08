@@ -23,34 +23,9 @@
                 <%= programName %>
             </span>
         </h3>
-
-        <div ng-if="root.authorize">
-            <button type="button" ng-click="root.startAuth()" class="easyButton"> Authorization </button>
-        </div>
-
-        <div ng-if="!root.authorize">
-            <form>
-                <label>API Key:</label>
-                <br>
-                <input type="text" class="easyInput" ng-model="root.account.apiKey" required>
-                <br>
-                <label>API Token:</label>
-                <br>
-                <input type="text" class="easyInput" ng-model="root.account.apiToken" required>
-
-                <button type="button" ng-click="root.startAuth()" class="easyButton"> Back </button>
-                <button type="button" ng-click="root.reset()" class="easyButton"> Reset </button>
-                <input type="submit" ng-click="root.submit()" class="submitButton">
-
-            </form>
-
-            <h3>
-                <%= accessServerResult %>
-            </h3>
-
-
-        </div>
+        <% include authorization.ejs %>
     </div>
+    <!-- rootCtrl end-->
 
     <!-- <img src="/images/cat01.jpg" style="height: 200px;"> -->
 
