@@ -1,0 +1,30 @@
+.redText{
+    color:red;
+}
+
+.easyButton{
+    padding:10px;
+    background-color: #fec46d;
+    font-size: 20px;
+    border-radius: 10px;
+    border-width: 0px;
+}
+
+.submitButton{
+    padding:10px;
+    background-color: #21aa2c;
+    font-size: 20px;
+    border-radius: 10px;
+    border-width: 0px;
+}
+
+.easyInput{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 20px;
+}
