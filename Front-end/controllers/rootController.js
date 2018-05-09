@@ -6,17 +6,11 @@ angular.module('jenhaoApp', [])
 
     .controller('authCtrl', function ($scope, $http) {
         var vm = this;
-        vm.authorize = true;
+        vm.authorizeView = true;
+        vm.menuView = false;
         vm.accessResult = "Please fill out the form"
 
         vm.account = {};
-        vm.startAuth = () => {
-            if (vm.authorize == true) {
-                vm.authorize = false;
-            } else {
-                vm.authorize = true;
-            }
-        }
 
         vm.submit = () => {
             console.log(vm.account);
@@ -25,6 +19,8 @@ angular.module('jenhaoApp', [])
                 .then(
                     function successCallback(response) {
                         vm.accessResult = response.data;
+                        vm.menuView = true;
+                        vm.authorizeView = false;
                     },
                     function errorCallback(response) {
                         vm.accessResult = response.data;
