@@ -1,0 +1,27 @@
+<div ng-controller="authCtrl as auth">
+    <div ng-if="auth.authorize">
+        <button type="button" ng-click="auth.startAuth()" class="easyButton"> Authorization </button>
+    </div>
+
+    <div ng-if="!auth.authorize">
+        <form>
+            <label>API Key:</label>
+            <br>
+            <input type="text" class="easyInput" ng-model="auth.account.apiKey" required>
+            <br>
+            <label>API Token:</label>
+            <br>
+            <input type="text" class="easyInput" ng-model="auth.account.apiToken" required>
+            <br>
+
+            <button type="button" ng-click="auth.startAuth()" class="easyButton"> Back </button>
+            <button type="button" ng-click="auth.reset()" class="easyButton"> Reset </button>
+            <input type="submit" ng-click="auth.submit()" class="submitButton">
+        </form>
+        <h3>
+            {{ auth.accessResult }}
+        </h3>
+
+    </div>
+</div>
+<!-- authCtrl end-->

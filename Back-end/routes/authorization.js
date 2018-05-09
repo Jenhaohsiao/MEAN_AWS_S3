@@ -3,13 +3,11 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 
 
-router.get('/', function (req, res) {
+router.get('/authorization', function (req, res) {
 
-  res.render('index.ejs', {
-    programName: "AWS S3",
+  res.render('authorization', {
+    // accessResult: "test",
   });
 });
-
-
 
 module.exports = router;
