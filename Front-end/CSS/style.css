@@ -2,6 +2,33 @@
     color:red;
 }
 
+.easyContainer{
+    padding: 0px 20px;
+}
+
+.easyTableContainer{
+    padding:20px 0px;
+}
+
+.easyTable{
+    min-width: 700px;
+    border-collapse: collapse;
+
+}
+
+.easyTable ,th{
+    background-color: #c7e1f7;
+}
+.easyTable ,td{
+    background-color: #ffffff;
+}
+
+.easyTable ,th, td{
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+
 .easyButton{
     padding:10px;
     background-color: #fec46d;

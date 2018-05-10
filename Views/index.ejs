@@ -14,16 +14,25 @@
 </head>
 
 <body ng-app="jenhaoApp">
-    <div ng-controller="rootCtrl as root">
-        <h1>{{ root.ownerName }}'s Project</h1>
+    <div class="easyContainer">
+        <div ng-controller="rootCtrl as root">
+            <h1>{{ root.ownerName }}'s Project</h1>
 
-        <h3> Subject
-            <span class="redText">
-                <%= programName %>
-            </span>
-        </h3>
-        <% include authorization.ejs %>
-    </div> 
+            <h3> Subject
+                <span class="redText">
+                    <%= programName %>
+                </span>
+            </h3>
+            <% include authorization.ejs %>
+
+                <!-- <button type="button" ui-sref="page1" ui-sref-active="active">page1</button>
+                    <button type="button" ui-sref="page2" ui-sref-active="active">page2</button>
+                    <button type="button" ui-sref="page1" ui-sref-active="active">page3</button>
+            
+                    <ui-view></ui-view> -->
+        </div>
+    </div>
+
 </body>
 
 </html>

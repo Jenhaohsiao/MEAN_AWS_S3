@@ -5,10 +5,32 @@
         <button type="button" ng-click="menu.listBuckets()" class="easyButton"> List buckets </button>
         <button type="button" ng-click="menu.addBucket()" class="easyButton"> Add one bucket </button>
 
+        <div ng-if="menu.listBucketsView">
+            <p class="easyTableContainer">
+                <h3>Buckets: {{ menu.bucketsList.length }}</h3>
+                <table class="easyTable">
+                    <tr>
+                        <th>Name</th>
+                        <th>Functions</th>
+                    </tr>
+                    <tr ng-repeat="bucket in menu.bucketsList">
+                        <td>
+                            {{bucket.Name}}
+                        </td>
+                        <td>
+                            <button type="button"> View Objects</button>
+                            <button type="button"> Delete this Bucket</button>
+                        </td>
+                    </tr>
+                </table>
+        </div>
 
-        <li ng-repeat="bucket in menu.bucketsList">
-            {{bucket.Name}}
-        </li>
-
+        <div ng-if="menu.listAddBucketView">
+            <h3>add a bucket</h3>
+        </div>
     </div>
+
+
+
+</div>
 </div>

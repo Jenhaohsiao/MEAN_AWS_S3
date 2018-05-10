@@ -33,9 +33,13 @@ angular.module('jenhaoApp', [])
 
         var vm = this;
         vm.ctrlName = "select one button";
+        vm.listBucketsView = false;
+        vm.listAddBucketView = false;
         vm.bucketsList = [];
 
         vm.listBuckets = () => {
+            vm.listBucketsView = true;
+            vm.listAddBucketView = false;
             vm.ctrlName = "List buckets";
             $http.post('api/listBuckets')
                 .then(
@@ -50,6 +54,12 @@ angular.module('jenhaoApp', [])
 
         vm.addBucket = () => {
             vm.ctrlName = "Add a bucket";
+            vm.listBucketsView = false;
+            vm.listAddBucketView = true;
         }
 
+    })
+    .controller('bucketCtrl', function ($scope, $http) {
+        var vm = this;
+        vm.ownerName = "Jen-Hao";
     });
