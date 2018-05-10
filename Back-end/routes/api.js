@@ -24,17 +24,27 @@ router.post('/api', function (req, res) {
   console.log(`APIToken in back-end ${apiToken}`);
 
   if (apiKey === process.env.awsKey && apiToken === process.env.awsToken) {
-    // res.send('Your key or token are incorrect');
     res.status(200).send('From Back-end, access successful !!!');
 
     authorizeAWS();
   } else {
-    // console.log("Your key or token is incorrect")
     res.status(404).send('From Back-end, access fail~~');
-
   }
-
   res.end();
+});
+
+
+
+
+router.post('/api/listBuckets', function (req, res) {
+  
+  const params = {};
+  s3.listBuckets(params, function (err, data) {
+    if (err) console.log(`Errors!:${err, err.stack}`); // an error occurred
+    else
+     res.send(data.Buckets);
+  });
+  // res.end();
 });
 
 

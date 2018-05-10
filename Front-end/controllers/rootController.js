@@ -12,7 +12,7 @@ angular.module('jenhaoApp', [])
 
         vm.account = {};
 
-        vm.submit = () => {
+        vm.submitKey = () => {
             console.log(vm.account);
 
             $http.post('api', vm.account)
@@ -25,12 +25,31 @@ angular.module('jenhaoApp', [])
                     function errorCallback(response) {
                         vm.accessResult = response.data;
                     }
+                )
+        }
+    })
 
+    .controller('menuCtrl', function ($scope, $http) {
+
+        var vm = this;
+        vm.ctrlName = "select one button";
+        vm.bucketsList = [];
+
+        vm.listBuckets = () => {
+            vm.ctrlName = "List buckets";
+            $http.post('api/listBuckets')
+                .then(
+                    function successCallback(response) {
+                        console.log("Get it, list:",response.data);
+                        vm.bucketsList = response.data;
+                    },
+                    function errorCallback(response) {
+                    }
                 )
         }
 
-        vm.reset = () => {
-            vm.account = {};
-
+        vm.addBucket = () => {
+            vm.ctrlName = "Add a bucket";
         }
+
     });
