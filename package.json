@@ -4,6 +4,12 @@
   },
   "name": "jenhao_aws",
   "dependencies": {
+    "angular": "^1.6.10",
+    "angular-animate": "^1.6.10",
+    "angular-aria": "^1.6.10",
+    "angular-material": "^1.1.9",
+    "angular-messages": "^1.6.10",
+    "angular-ui-router": "^1.0.3",
     "aws-sdk": "^2.233.1",
     "body-parser": "^1.18.2",
     "ejs": "^2.6.1",
@@ -12,7 +18,10 @@
   },
   "version": "1.0.0",
   "main": "server.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.2",
+    "grunt-contrib-concat": "^1.0.1"
+  },
   "author": "JenHao",
   "license": "ISC",
   "description": ""
