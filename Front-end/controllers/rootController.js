@@ -11,8 +11,6 @@ angular.module('jenhaoApp', [])
         vm.accessResult = "Please fill out the form"
 
         vm.account = {};
-        vm.account.apiKey = "AKIAJQULL24YO6PNPBQA";
-        vm.account.apiToken = "YbbwJf+k9CRdeY0US8YvIfZ0rhk0cWdXFiPBrJNC";
 
         vm.submitKey = () => {
             console.log(vm.account);
