@@ -37,7 +37,7 @@
 
         <div ng-if="menu.listBucketObjectView">
             <p class="easyTableContainer">
-                <h3>Bucket Name: {{ _bucketName }}</h3>
+                <h3>Bucket Name: {{ menu.selectedBucket }}</h3>
                 <table class="easyTable">
                     <tr>
                         <th>Name</th>
@@ -49,7 +49,7 @@
                         </td>
                         <td>
 
-                            <img width="60" height="60" src="{{getSrc(bucketObj)}}"> View</img>
+                            <img src="{{menu.getSrc(menu.selectedBucket,bucketObj)}}" class= "easyImg" alt="{{bucketObj.Key}}">
                             <button type="button" > delete</button>
                         </td>
                     </tr>

@@ -75,7 +75,7 @@ router.post('/api/listBucketObjects', function (req, res) {
       console.log(`Error: ${err}`);
       res.status(500).send(err);
     } else {
-      console.log(`data:`+ JSON.stringify(data));
+      // console.log(`data:`+ JSON.stringify(data));
       console.log(`data:`+ JSON.stringify(data, null, "    "));
       res.send(data);
     }

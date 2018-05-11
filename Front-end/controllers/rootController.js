@@ -30,6 +30,10 @@ angular.module('jenhaoApp', [])
                     }
                 )
         }
+
+        vm.reset = () => {
+            vm.account = {};
+        }
     })
 
     .controller('menuCtrl', function ($scope, $http) {
@@ -44,6 +48,7 @@ angular.module('jenhaoApp', [])
 
         vm.newBucket = {};
         vm.newBucket.name = "";
+        vm.selectedBucket = null;
 
         vm.listBuckets = () => {
             vm.listBucketsView = true;
@@ -62,15 +67,18 @@ angular.module('jenhaoApp', [])
                 )
         }
 
-        $scope.getSrc = function(item){
-            return "https://s3.ca-central-1.amazonaws.com/rugsbucket/"+ item.Key;
+            vm.getSrc = function(selectedBucketName,item){
+
+            // return "https://s3.ca-central-1.amazonaws.com/rugsbucket/"+ item.Key;
+            return `https://s3.ca-central-1.amazonaws.com/${selectedBucketName}/${item.Key}`;
+
         }
         //list bucket objects
         vm.viewObjects = (name) => {
             vm.listBucketsView = false;
             vm.listAddBucketView = false;
             vm.listBucketObjectView = true;
-            vm._bucketName = name;
+            vm.selectedBucket = name;
             vm.ctrlName = "List buckets Objects";
             $http.post('api/listBucketObjects', {bucketName:name})
                 .then(

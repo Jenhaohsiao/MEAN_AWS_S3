@@ -14,7 +14,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.json());
 
 // Public
-// app.use(express.static('./Public'));
 app.use(express.static(path.join(__dirname, 'Public')));
 app.use(express.static('./Front-end'));
 
