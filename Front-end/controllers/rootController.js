@@ -43,7 +43,8 @@ angular.module('jenhaoApp', [])
         vm.listBucketsView = false;
         vm.listAddBucketView = false;
         vm.listBucketObjectView = false;
-        
+        vm.uploadObjectView = false;
+
         vm.bucketsList = [];
 
         vm.newBucket = {};
@@ -54,37 +55,46 @@ angular.module('jenhaoApp', [])
             vm.listBucketsView = true;
             vm.listAddBucketView = false;
             vm.listBucketObjectView = false;
-            
+            vm.uploadObjectView = false;
+
             vm.ctrlName = "List buckets";
             $http.post('api/listBuckets')
                 .then(
                     function successCallback(response) {
-                        console.log("Get it, list:",response.data);
+                        console.log("Get it, list:", response.data);
                         vm.bucketsList = response.data;
                     },
-                    function errorCallback(response) {
-                    }
+                    function errorCallback(response) {}
                 )
         }
 
-            vm.getSrc = function(selectedBucketName,item){
+        vm.getSrc = function (selectedBucketName, item) {
 
-            // return "https://s3.ca-central-1.amazonaws.com/rugsbucket/"+ item.Key;
-            return `https://s3.ca-central-1.amazonaws.com/${selectedBucketName}/${item.Key}`;
+            if (!selectedBucketName || !item) {
+                return `#`
+            } else {
+                // return "https://s3.ca-central-1.amazonaws.com/rugsbucket/"+ item.Key;
+                return `https://s3.ca-central-1.amazonaws.com/${selectedBucketName}/${item.Key}`;
+            }
 
         }
         //list bucket objects
-        vm.viewObjects = (name) => {
+        vm.listObjects = (selectedBucketName) => {
             vm.listBucketsView = false;
             vm.listAddBucketView = false;
             vm.listBucketObjectView = true;
-            vm.selectedBucket = name;
+            vm.uploadObjectView = false;
+
+            vm.selectedBucket = selectedBucketName;
             vm.ctrlName = "List buckets Objects";
-            $http.post('api/listBucketObjects', {bucketName:name})
+
+            $http.post('api/listBucketObjects', {
+                    bucketName: selectedBucketName
+                })
                 .then(
                     function successCallback(response) {
-                        console.log("Get it, list:",response.data);
-                        vm.bucketObjectList = response.data.Versions;
+                        console.log("Get it, list:", response.data);
+                        vm.bucketObjectList = response.data.Versions; 
                     },
                     function errorCallback(err) {
                         console.log(err);
@@ -98,29 +108,108 @@ angular.module('jenhaoApp', [])
             vm.listBucketsView = false;
             vm.listAddBucketView = true;
             vm.listBucketObjectView = false;
-            
+            vm.uploadObjectView = false;
+
         }
 
         vm.submitAddBucket = () => {
+            vm.ctrlName = "";
             
-            console.log("bucket name:", vm.newBucket );
-
-            // $http.post('api/addABucket',newBucketName )
-            $http.post('api/addABucket',vm.newBucket)
-            .then(
+            $http({
+                method: 'POST',
+                url: 'api/addABucket',
+                data: vm.newBucket
+            }).then(
                 function successCallback(response) {
-                    console.log("add bucket success");
-                    // console.log("Added a new bucket:",response.data);
-                    // vm.bucketsList = response.data;
+                    console.log("Added bucket successful");
+                    vm.ctrlName = response.data.message;
+                    vm.newBucket.name = "";
                 },
                 function errorCallback(response) {
                     console.log("add bucket fail");
+                    vm.ctrlName = response.data.message.message;
                 }
             )
         }
 
-    })
-    .controller('bucketCtrl', function ($scope, $http) {
-        var vm = this;
-        vm.ownerName = "Jen-Hao";
+        vm.onUploadObject = (selectedBucketName) => {
+            vm.selectedBucket = selectedBucketName;
+            vm.ctrlName = "Upload Object to: " + selectedBucketName;
+            vm.listBucketsView = false;
+            vm.listAddBucketView = false;
+            vm.listBucketObjectView = false;
+            vm.uploadObjectView = true;
+        }
+
+        vm.submitUploadFile = (selectedBucketName) => {
+
+            var file = document.getElementById('selectedFile').files[0];
+            var reader = new FileReader();
+            // reader.readAsDataURL(file);
+
+            var uploadObject = {};
+            uploadObject.bucketName = selectedBucketName;
+            uploadObject.fileName = file.name;
+            uploadObject.file = reader.readAsDataURL(file);
+
+            $http.post('upload/uploadObject', uploadObject)
+                .then(
+                    function successCallback(response) {
+                        console.log("upload object successful");
+                        vm.ctrlName = response.data.message;
+                    },
+                    function errorCallback(response) {
+                        console.log("upload object fail");
+                        vm.ctrlName = response.data.message;
+                    }
+                )
+        }
+
+        vm.deleObject = (selectedBucketName, selectedObject) => {
+
+            objectWillDel = {};
+            objectWillDel.bucketName = selectedBucketName;
+            objectWillDel.objectKey = selectedObject.Key;
+
+            $http({
+                method: 'POST',
+                url: 'api/deleObject',
+                data: objectWillDel
+            }).then(
+                function successCallback(response) {
+                    console.log("Del object successful");
+                    vm.listObjects(selectedBucketName);
+                    vm.ctrlName = response.data.message;
+                },
+                function errorCallback(response) {
+                    console.log("Del object fail");
+                    vm.ctrlName = response.data.message;
+                }
+            )
+        }
+
+        vm.deleBucket = (selectedBucketName) => {
+
+            bucketWillDel = {};
+            bucketWillDel.bucketName = selectedBucketName;
+
+            $http({
+                method: 'POST',
+                url: 'api/deleBucket',
+                data: bucketWillDel
+            }).then(
+                function successCallback(response) {
+                    console.log("Del Bucket successful");
+                    vm.listBuckets();
+                    vm.ctrlName = response.data.message;
+                    // vm.newBucket.name = "";
+                    // vm.viewObjects(selectedBucketName);
+                },
+                function errorCallback(response) {
+                    console.log("Del Bucket fail");
+                    vm.ctrlName = response.data.message;
+                }
+            )
+        }
+
     });

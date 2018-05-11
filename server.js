@@ -21,6 +21,8 @@ app.use(express.static('./Front-end'));
 app.use(require('./Back-end/routes/index'));
 app.use(require('./Back-end/routes/authorization'));
 app.use(require('./Back-end/routes/api'));
+app.use(require('./Back-end/routes/upload'));
+
 
 var server = app.listen(app.get('port'), function() {
   console.log('Listening on port ' + app.get('port'));

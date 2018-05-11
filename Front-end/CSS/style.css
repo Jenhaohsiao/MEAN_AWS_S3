@@ -1,9 +1,17 @@
 .redText{
-    color:red;
+    color:rgb(244, 82, 82);
 }
 
-.easyContainer{
+.easyTextBlue{
+    color: #5576fa;
+}
+
+.easyContainerLR{
     padding: 0px 20px;
+}
+
+.easyContainerTopDown{
+    padding: 20px 0px;
 }
 
 .easyTableContainer{

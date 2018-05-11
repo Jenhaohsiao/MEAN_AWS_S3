@@ -1,12 +1,12 @@
 <div ng-if="auth.menuView">
     <div ng-controller="menuCtrl as menu">
-        <h1>{{ menu.ctrlName }}</h1>
+        <h3 class="easyTextBlue">{{ menu.ctrlName }}</h3>
 
         <button type="button" ng-click="menu.listBuckets()" class="easyButton"> List buckets </button>
         <button type="button" ng-click="menu.selectAddBucket()" class="easyButton"> Add one bucket </button>
 
         <div ng-if="menu.listBucketsView">
-            <p class="easyTableContainer">
+            <div class="easyTableContainer">
                 <h3>Buckets: {{ menu.bucketsList.length }}</h3>
                 <table class="easyTable">
                     <tr>
@@ -18,16 +18,19 @@
                             {{bucket.Name}}
                         </td>
                         <td>
-                            <button type="button" ng-click="menu.viewObjects(bucket.Name)"> View Objects</button>
-                            <button type="button"> Delete this Bucket</button>
+                            <button type="button" ng-click="menu.onUploadObject(bucket.Name)"> upload </button>
+                            <button type="button" ng-click="menu.listObjects(bucket.Name)"> View Objects </button>
+                            <button type="button" ng-click="menu.deleBucket(bucket.Name)"> Delete this Bucket</button>
                         </td>
                     </tr>
                 </table>
+            </div>
+
         </div>
 
-        <div ng-if="menu.listAddBucketView">
+        <div ng-if="menu.listAddBucketView" class="easyContainerTopDown">
             <form>
-                <label>Bucket Name:</label>
+                <label>New Bucket Name:</label>
                 <br>
                 <input type="text" class="easyInput" ng-model="menu.newBucket.name" required>
                 <br>
@@ -49,17 +52,24 @@
                         </td>
                         <td>
 
-                            <img src="{{menu.getSrc(menu.selectedBucket,bucketObj)}}" class= "easyImg" alt="{{bucketObj.Key}}">
-                            <button type="button" > delete</button>
+                            <img src="{{menu.getSrc(menu.selectedBucket,bucketObj)}}" class="easyImg" alt="{{bucketObj.Key}}">
+                            <button type="button" ng-click="menu.deleObject(menu.selectedBucket,bucketObj)" > delete</button>
                         </td>
                     </tr>
                 </table>
         </div>
-    
-        
+
+        <div ng-if="menu.uploadObjectView" class="easyContainerTopDown">
+
+            <form>
+                Select file:
+                <input type="file" id="selectedFile">
+                <br>
+                <input type="submit" ng-click="menu.submitUploadFile(menu.selectedBucket)">
+                <div id="results"></div>
+            </form>
+        </div>
     </div>
-
-
 
 </div>
 </div>
