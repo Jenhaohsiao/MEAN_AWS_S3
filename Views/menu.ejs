@@ -3,7 +3,7 @@
         <h1>{{ menu.ctrlName }}</h1>
 
         <button type="button" ng-click="menu.listBuckets()" class="easyButton"> List buckets </button>
-        <button type="button" ng-click="menu.addBucket()" class="easyButton"> Add one bucket </button>
+        <button type="button" ng-click="menu.selectAddBucket()" class="easyButton"> Add one bucket </button>
 
         <div ng-if="menu.listBucketsView">
             <p class="easyTableContainer">
@@ -18,7 +18,7 @@
                             {{bucket.Name}}
                         </td>
                         <td>
-                            <button type="button"> View Objects</button>
+                            <button type="button" ng-click="menu.viewObjects(bucket.Name)"> View Objects</button>
                             <button type="button"> Delete this Bucket</button>
                         </td>
                     </tr>
@@ -26,8 +26,37 @@
         </div>
 
         <div ng-if="menu.listAddBucketView">
-            <h3>add a bucket</h3>
+            <form>
+                <label>Bucket Name:</label>
+                <br>
+                <input type="text" class="easyInput" ng-model="menu.newBucket.name" required>
+                <br>
+                <input type="submit" ng-click="menu.submitAddBucket()" class="submitButton">
+            </form>
         </div>
+
+        <div ng-if="menu.listBucketObjectView">
+            <p class="easyTableContainer">
+                <h3>Bucket Name: {{ _bucketName }}</h3>
+                <table class="easyTable">
+                    <tr>
+                        <th>Name</th>
+                        <th>Functions</th>
+                    </tr>
+                    <tr ng-repeat="bucketObj in menu.bucketObjectList">
+                        <td>
+                            {{bucketObj.Key}}
+                        </td>
+                        <td>
+
+                            <img width="60" height="60" src="{{getSrc(bucketObj)}}"> View</img>
+                            <button type="button" > delete</button>
+                        </td>
+                    </tr>
+                </table>
+        </div>
+    
+        
     </div>
 
 

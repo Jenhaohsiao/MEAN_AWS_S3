@@ -35,7 +35,6 @@ router.post('/api', function (req, res) {
 
 
 
-
 router.post('/api/listBuckets', function (req, res) {
   
   const params = {};
@@ -47,19 +46,43 @@ router.post('/api/listBuckets', function (req, res) {
   // res.end();
 });
 
+router.post('/api/addABucket', function (req, res) {
 
-function listBuckets() {
-  const params = {};
-  s3.listBuckets(params, function (err, data) {
-    if (err) console.log(`Errors!:${err, err.stack}`); // an error occurred
-    else
-      console.log('Accessed S3 successfully. Buckets list:');
+  var newBucketName = req.body.name;
+  console.log('newBucketName:',newBucketName);
 
-    for (i = 0; i < data.Buckets.length; i++) {
-      console.log(data.Buckets[i].Name);
+  s3.createBucket({
+    Bucket: newBucketName
+  }, function (err, data) {
+    if (err) {
+      console.log(`Error: ${err}`);
+    } else {
+      console.log(`data: ${data}`);
     }
+
   });
-}
+});
+
+router.post('/api/listBucketObjects', function (req, res) {
+
+  var bucketName = req.body.bucketName;
+  console.log('bucketName:',bucketName);
+
+  s3.listObjectVersions({
+    Bucket: bucketName
+  }, function (err, data) {
+    if (err) {
+      console.log(`Error: ${err}`);
+      res.status(500).send(err);
+    } else {
+      console.log(`data:`+ JSON.stringify(data));
+      console.log(`data:`+ JSON.stringify(data, null, "    "));
+      res.send(data);
+    }
+
+  });
+});
+
 
 function authorizeAWS() {
   const params = {};
