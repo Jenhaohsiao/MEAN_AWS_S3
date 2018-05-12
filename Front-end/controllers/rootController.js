@@ -51,6 +51,8 @@ angular.module('jenhaoApp', [])
         vm.newBucket.name = "";
         vm.selectedBucket = null;
 
+        vm.uploadObject64 = null;
+
         vm.listBuckets = () => {
             vm.listBucketsView = true;
             vm.listAddBucketView = false;
@@ -79,7 +81,7 @@ angular.module('jenhaoApp', [])
 
         }
         //list bucket objects
-        vm.listObjects = (selectedBucketName) => {
+        vm.listObjects = function (selectedBucketName) {
             vm.listBucketsView = false;
             vm.listAddBucketView = false;
             vm.listBucketObjectView = true;
@@ -94,7 +96,7 @@ angular.module('jenhaoApp', [])
                 .then(
                     function successCallback(response) {
                         console.log("Get it, list:", response.data);
-                        vm.bucketObjectList = response.data.Versions; 
+                        vm.bucketObjectList = response.data.Versions;
                     },
                     function errorCallback(err) {
                         console.log(err);
@@ -103,7 +105,7 @@ angular.module('jenhaoApp', [])
         }
 
 
-        vm.selectAddBucket = () => {
+        vm.selectAddBucket = function () {
             vm.ctrlName = "Add a bucket";
             vm.listBucketsView = false;
             vm.listAddBucketView = true;
@@ -112,9 +114,9 @@ angular.module('jenhaoApp', [])
 
         }
 
-        vm.submitAddBucket = () => {
+        vm.submitAddBucket = function () {
             vm.ctrlName = "";
-            
+
             $http({
                 method: 'POST',
                 url: 'api/addABucket',
@@ -125,14 +127,14 @@ angular.module('jenhaoApp', [])
                     vm.ctrlName = response.data.message;
                     vm.newBucket.name = "";
                 },
-                function errorCallback(response) {
+                function errorCallback(err) {
                     console.log("add bucket fail");
-                    vm.ctrlName = response.data.message.message;
+                    vm.ctrlName = err.data.message.message;
                 }
             )
         }
 
-        vm.onUploadObject = (selectedBucketName) => {
+        vm.onUploadObject = function (selectedBucketName) {
             vm.selectedBucket = selectedBucketName;
             vm.ctrlName = "Upload Object to: " + selectedBucketName;
             vm.listBucketsView = false;
@@ -141,31 +143,49 @@ angular.module('jenhaoApp', [])
             vm.uploadObjectView = true;
         }
 
-        vm.submitUploadFile = (selectedBucketName) => {
+        vm.getBase64 = function (file) {
 
-            var file = document.getElementById('selectedFile').files[0];
             var reader = new FileReader();
-            // reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                console.log(reader.result);
+                vm.uploadObject64 = reader.result;
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+            };
 
-            var uploadObject = {};
-            uploadObject.bucketName = selectedBucketName;
-            uploadObject.fileName = file.name;
-            uploadObject.file = reader.readAsDataURL(file);
 
-            $http.post('upload/uploadObject', uploadObject)
-                .then(
-                    function successCallback(response) {
-                        console.log("upload object successful");
-                        vm.ctrlName = response.data.message;
-                    },
-                    function errorCallback(response) {
-                        console.log("upload object fail");
-                        vm.ctrlName = response.data.message;
-                    }
-                )
         }
 
-        vm.deleObject = (selectedBucketName, selectedObject) => {
+        vm.submitUploadFile = function (selectedBucketName) {
+
+            var file = document.getElementById('selectedFile').files[0];
+            vm.getBase64(document.getElementById('selectedFile').files[0]);
+
+            setTimeout(function () {
+
+                var uploadObject = {};
+                uploadObject.bucketName = selectedBucketName;
+                uploadObject.fileName = file.name;
+                uploadObject.file = vm.uploadObject64;
+
+                $http.post('upload/uploadObject', uploadObject)
+                    .then(
+                        function successCallback(response) {
+                            console.log("upload object successful");
+                            vm.ctrlName = response.data.message;
+                        },
+                        function errorCallback(response) {
+                            console.log("upload object fail");
+                            vm.ctrlName = response.data.message;
+                        }
+                    )
+
+            }, 3000);
+        }
+
+        vm.deleObject = function (selectedBucketName, selectedObject) {
 
             objectWillDel = {};
             objectWillDel.bucketName = selectedBucketName;
@@ -188,7 +208,7 @@ angular.module('jenhaoApp', [])
             )
         }
 
-        vm.deleBucket = (selectedBucketName) => {
+        vm.deleBucket = function (selectedBucketName) {
 
             bucketWillDel = {};
             bucketWillDel.bucketName = selectedBucketName;
