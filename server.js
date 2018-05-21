@@ -14,7 +14,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.json());
 
 // Public
-// app.use(express.static('./Public'));
 app.use(express.static(path.join(__dirname, 'Public')));
 app.use(express.static('./Front-end'));
 
@@ -22,6 +21,8 @@ app.use(express.static('./Front-end'));
 app.use(require('./Back-end/routes/index'));
 app.use(require('./Back-end/routes/authorization'));
 app.use(require('./Back-end/routes/api'));
+app.use(require('./Back-end/routes/upload'));
+
 
 var server = app.listen(app.get('port'), function() {
   console.log('Listening on port ' + app.get('port'));
